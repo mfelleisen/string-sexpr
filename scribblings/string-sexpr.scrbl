@@ -1,6 +1,13 @@
 #lang scribble/manual
 
-@(require (for-label racket xml/xml))
+@(require (for-label xml/xml) racket/sandbox scribble/example "../main.rkt")
+
+@(define my-evaluator
+   (parameterize ([sandbox-output 'string]
+                  [sandbox-error-output 'string])
+     (define e (make-evaluator 'racket))
+     (e '(require string-sexpr))
+     e))
 
 @title{String to S-expression for Fundamentals I, 2016, Northeastern University}
 @author{matthias}
@@ -29,6 +36,18 @@ The teachpack provides a single function:
 ; An LPD* is [Listof PD*]
 ))
 @;%
+
+
+@examples[#:eval my-evaluator
+ (string->sexpr "empty-image")
+ (string->sexpr "\"nope\"")
+ (string->sexpr "(circle 10 \"solid\" \"red\")")
+ (string->sexpr "(rectangle 10 20 \"solid\" \"red\")")
+ (string->sexpr "(above (rectangle 10 20 \"solid\" \"red\"))")
+ (string->sexpr
+  "(beside \"hello\" (rectangle 10 20 \"solid\" \"red\") \"world\")")
+  (string->sexpr "(circle 10 solid red")
+]
 }
 
 @history[

@@ -23,6 +23,8 @@
 ;; -----------------------------------------------------------------------------
 ;; dependencies 
 
+(require htdp/error)
+
 (module+ test
   (require rackunit))
 
@@ -37,6 +39,7 @@
 ;; masking exceptions as #false 
 
 (define (string->sexpr s)
+  (check-arg 'string->sexpr (string? s) "string" "first" s)
   (with-handlers ((exn:fail:read:eof? (lambda (x) #false))
                   (exn:fail:contract? (lambda (x) #false)))
     (define x (read (open-input-string s)))
@@ -45,7 +48,6 @@
 ;; S-expression -> Boolean
 ;; is x in PD?
 (define (check-pd* x)
-  ; (printf "~s" x)
   (match x
     ['empty-image #true]
     [(? string?) #true]
@@ -77,5 +79,5 @@
     "(beside \"hello\" (rectangle 10 20 \"solid\" \"red\") \"world\")")
    '(beside "hello" (rectangle 10 20 "solid" "red") "world"))
 
-  (check-false (string->sexpr 'nope) "symbols not allowed")
+  (check-exn exn:fail? (lambda () (string->sexpr 'nope)) "symbols not allowed")
   (check-false (string->sexpr "(circle 10 solid red") "incomplete S-expression"))
