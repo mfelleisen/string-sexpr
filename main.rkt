@@ -53,8 +53,8 @@
     [(? string?) #true]
     [`(circle ,(? number?) ,(? string?) ,(? string?)) #true]
     [`(rectangle ,(? number?) ,(? number?) ,(? string?) ,(? string?)) #true]
-    [`(beside ,y ...) (check-lpd* y)]
-    [`(above ,y ...) (check-lpd* y)]
+    [`(beside ,y) (check-lpd* y)]
+    [`(above ,y) (check-lpd* y)]
     [else #false]))
 
 ;; [Listof S-expression] -> Boolean
@@ -72,12 +72,13 @@
                 '(circle 10 "solid" "red"))
   (check-equal? (string->sexpr "(rectangle 10 20 \"solid\" \"red\")")
                 '(rectangle 10 20 "solid" "red"))
-  (check-equal? (string->sexpr "(above (rectangle 10 20 \"solid\" \"red\"))")
-                '(above (rectangle 10 20 "solid" "red")))
+  (check-equal?
+    (string->sexpr "(above ((rectangle 10 20 \"solid\" \"red\")))")
+    '(above ((rectangle 10 20 "solid" "red"))))
   (check-equal?
    (string->sexpr
-    "(beside \"hello\" (rectangle 10 20 \"solid\" \"red\") \"world\")")
-   '(beside "hello" (rectangle 10 20 "solid" "red") "world"))
+    "(beside (\"hello\" (rectangle 10 20 \"solid\" \"red\") \"world\"))")
+   '(beside ("hello" (rectangle 10 20 "solid" "red") "world")))
 
   (check-exn exn:fail? (lambda () (string->sexpr 'nope)) "symbols not allowed")
   (check-false (string->sexpr "(circle 10 solid red") "incomplete S-expression"))

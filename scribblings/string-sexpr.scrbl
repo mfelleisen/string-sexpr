@@ -50,6 +50,10 @@ The teachpack provides a single function:
 ]
 }
 
+@bold{Thanks} to Eric L. for discovering the discrepancy between the data
+definition and the signature. 
+
 @history[
+ #:changed "2.0" @list{Sun Nov 13 21:53:56 EST 2016}
  #:changed "1.0" @list{Thu Nov 10 13:42:33 EST 2016}
 ]

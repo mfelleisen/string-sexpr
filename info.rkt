@@ -4,5 +4,5 @@
 (define build-deps '("scribble-lib" "racket-doc"))
 (define scribblings '(("scribblings/string-sexpr.scrbl" ())))
 (define pkg-desc "a supplementary package for Fundamentals I @ NEU, 2016")
-(define version "0.1")
+(define version "2.0")
 (define pkg-authors '(matthias))
